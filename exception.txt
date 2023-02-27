@@ -1,0 +1,60 @@
+❯ python3 ./main.py                                                                                                                                                                                                                                 
+test/./main.py:51: DeprecationWarning: There is no current event loop                                                                                                                                                                    
+  loop = asyncio.get_event_loop()                                                                                                                                                                                                                   
+0                                                                                                                                                                                                                                                   
+Traceback (most recent call last):                                                                                                                                                                                                                  
+  File "test/./main.py", line 52, in <module>                                                                                                                                                                                            
+    loop.run_until_complete(run())                                                                                                                                                                                                                  
+  File "uvloop/loop.pyx", line 1517, in uvloop.loop.Loop.run_until_complete                                                                            
+  File "test/./main.py", line 46, in run                                                                                                    
+    result = await db.get_feedback_count(120, 0)                                                                                                       
+  File "test/./main.py", line 39, in get_feedback_count                                                                                     
+    return (await session.execute(statement)).scalar()                                                                                                 
+  File "venv/lib/python3.10/site-packages/sqlalchemy/ext/asyncio/session.py", line 313, in execute                               
+    result = await greenlet_spawn(                                                                                                                     
+  File "venv/lib/python3.10/site-packages/sqlalchemy/util/_concurrency_py3k.py", line 165, in greenlet_spawn                     
+    result = context.throw(*sys.exc_info())                                                                                                            
+  File "venv/lib/python3.10/site-packages/sqlalchemy/orm/session.py", line 2229, in execute                                      
+    return self._execute_internal(                                                                                                                     
+  File "venv/lib/python3.10/site-packages/sqlalchemy/orm/session.py", line 2114, in _execute_internal                            
+    conn = self._connection_for_bind(bind)                                                                                                             
+  File "venv/lib/python3.10/site-packages/sqlalchemy/orm/session.py", line 1981, in _connection_for_bind                         
+    return trans._connection_for_bind(engine, execution_options)                                                                                       
+  File "<string>", line 2, in _connection_for_bind                                                                                                     
+  File "venv/lib/python3.10/site-packages/sqlalchemy/orm/state_changes.py", line 137, in _go                                     
+    ret_value = fn(self, *arg, **kw)                                                                                                                   
+  File "venv/lib/python3.10/site-packages/sqlalchemy/orm/session.py", line 1108, in _connection_for_bind                         
+    conn = bind.connect()                                                                                                                              
+  File "venv/lib/python3.10/site-packages/sqlalchemy/engine/base.py", line 3245, in connect                                      
+    return self._connection_cls(self)                                                                                                                  
+  File "venv/lib/python3.10/site-packages/sqlalchemy/engine/base.py", line 145, in __init__                                      
+    self._dbapi_connection = engine.raw_connection()                                                                                                   
+  File "venv/lib/python3.10/site-packages/sqlalchemy/engine/base.py", line 3269, in raw_connection                               
+    return self.pool.connect()                                                                                                                         
+  File "venv/lib/python3.10/site-packages/sqlalchemy/pool/base.py", line 455, in connect                                         
+    return _ConnectionFairy._checkout(self)                  
+  File "venv/lib/python3.10/site-packages/sqlalchemy/pool/base.py", line 1367, in _checkout         
+    with util.safe_reraise():                                
+  File "venv/lib/python3.10/site-packages/sqlalchemy/util/langhelpers.py", line 147, in __exit__    
+    raise exc_value.with_traceback(exc_tb)                   
+  File "venv/lib/python3.10/site-packages/sqlalchemy/pool/base.py", line 1307, in _checkout         
+    result = pool._dialect.do_ping(fairy.dbapi_connection)   
+  File "venv/lib/python3.10/site-packages/sqlalchemy/dialects/mysql/mysqldb.py", line 172, in do_ping                                                                                                                         
+    dbapi_connection.ping(False)                             
+  File "venv/lib/python3.10/site-packages/sqlalchemy/dialects/mysql/asyncmy.py", line 199, in ping  
+    return self.await_(self._do_ping())                      
+  File "venv/lib/python3.10/site-packages/sqlalchemy/util/_concurrency_py3k.py", line 102, in await_only                                                                                                                      
+    return current.driver.switch(awaitable)  # type: ignore[no-any-return]                                                
+  File "venv/lib/python3.10/site-packages/sqlalchemy/util/_concurrency_py3k.py", line 160, in greenlet_spawn                                                                                                                  
+    value = await result                                     
+  File "venv/lib/python3.10/site-packages/sqlalchemy/dialects/mysql/asyncmy.py", line 203, in _do_ping
+    return await self._connection.ping(False)
+  File "asyncmy/connection.pyx", line 488, in ping
+  File "asyncmy/connection.pyx", line 481, in asyncmy.connection.Connection.ping
+  File "asyncmy/connection.pyx", line 685, in _execute_command
+  File "asyncmy/connection.pyx", line 624, in asyncmy.connection.Connection._write_bytes
+  File "/usr/lib/python3.10/asyncio/streams.py", line 326, in write
+    self._transport.write(data)
+  File "uvloop/handles/stream.pyx", line 674, in uvloop.loop.UVStream.write
+  File "uvloop/handles/handle.pyx", line 159, in uvloop.loop.UVHandle._ensure_alive                                      
+RuntimeError: unable to perform operation on <TCPTransport closed=True reading=False 0x5653ee8f5fc0>; the handler is closed
